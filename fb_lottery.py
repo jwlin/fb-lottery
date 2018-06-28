@@ -18,7 +18,7 @@ class FbLottery(object):
         return data['id']
 
     def get_page_posts(self):
-        url = self.graph_api_url + '/{0}/posts?access_token={1}'.format(
+        url = self.graph_api_url + '/{0}/posts?access_token={1}&limit=100'.format(
             self.page_id, self.access_token)
         data = requests.get(url).json()
         return data['data']
@@ -26,7 +26,7 @@ class FbLottery(object):
     def get_lottery_post(self, title):
         all_posts = self.get_page_posts()
         for post in all_posts:
-            if title in post['message']:  # Also can use post['created_time'] to locate the post
+            if 'message' in post and title in post['message']:  # Also can use post['created_time'] to locate the post
                 return post
 
     def get_post_comments(self, post_id):
